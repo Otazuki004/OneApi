@@ -1,0 +1,4 @@
+quart
+motor==3.6.0
+pymongo[srv]
+kurigram
