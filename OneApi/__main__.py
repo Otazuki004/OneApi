@@ -13,7 +13,7 @@ async def home():
 
 async def run_():
     await bot.start()
-    asyncio.create_task(app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080))))
+    await app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
     await idle()
     
 if __name__ == '__main__':
