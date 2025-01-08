@@ -7,8 +7,10 @@ async def start():
   await asyncio.sleep(2.5)
   logging.info("Starting pyrogram...")
   while True:
-    await bot.start()
-    await asyncio.sleep(0.5)
+    try:
+      await bot.start()
+      await asyncio.sleep(0.5)
+    except: pass
 
 async def main():
     await start()
