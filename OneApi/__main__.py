@@ -23,9 +23,12 @@ async def main():
     asyncio.set_event_loop(loop)
     loop.run_until_complete(run_quart())
 
+async def o():
+    asyncio.create_task(main())
+
 if __name__ == '__main__':
+    asyncio.run(o())
     print("Starting bot")
     bot.start()
-    asyncio.create_task(main())
     idle()
     print("Bot stoped")
