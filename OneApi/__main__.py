@@ -11,9 +11,12 @@ app = cors(app, allow_origin="*")
 def home():
     return jsonify({'success': 'server online'})
 
-async def run():
-    asyncio.create_task(bot.start())
+async def run2():
     asyncio.create_task(app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080))))
+
+async def run():
+    await bot.start()
+    asyncio.create_task(run2())
     await idle()
 
 if __name__ == '__main__':
