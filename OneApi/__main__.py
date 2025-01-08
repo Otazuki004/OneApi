@@ -3,6 +3,7 @@ from quart import *
 from . import *
 import os
 from pyrogram import *
+import asyncio
 
 app = cors(app, allow_origin="*")
 
@@ -12,4 +13,5 @@ def home():
 
 if __name__ == '__main__':
   port = int(os.environ.get("PORT", 8080))
-  app.run(debug=True, host="0.0.0.0", port=port)
+  bot.start()
+  asyncio.gather(app.run(debug=True, host="0.0.0.0", port=port), idle())
