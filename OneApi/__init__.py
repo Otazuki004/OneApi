@@ -4,6 +4,7 @@ import logging
 from variables import *
 import os
 from quart import Quart
+from pyrogram import *
 
 logging.basicConfig(
   format="[OneApi] %(name)s - %(levelname)s - %(message)s",
