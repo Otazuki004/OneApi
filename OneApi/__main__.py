@@ -19,9 +19,11 @@ async def run_quart():
 
 async def main():
     print("Main triggered")
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(run_quart())
+    loop = asyncio.get_event_loop()
+    if loop.is_running():
+        asyncio.ensure_future(run_quart())
+    else:
+        loop.run_until_complete(run_quart())
 
 async def o():
     asyncio.create_task(main())
