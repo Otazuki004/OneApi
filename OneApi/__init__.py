@@ -25,8 +25,8 @@ if not API_ID or not API_HASH or not TOKEN or not MONGO_DB_URI:
   raise ValueError("Bro thought he can run anything lol, i mean you forgot some vars put on variables.py")
   exit()
 # _-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_-_+_|
-if len(TOKEN) > 50: app = Client("OneApi", session_string=TOKEN, api_id=API_ID, api_hash=API_HASH, plugins=dict(root="OneApi/pyro"))
-else: app = Client("OneApi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH, plugins=dict(root="OneApi/pyro"))
+if len(TOKEN) > 50: bot = Client("OneApi", session_string=TOKEN, api_id=API_ID, api_hash=API_HASH, plugins=dict(root="OneApi/pyro"))
+else: bot = Client("OneApi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH, plugins=dict(root="OneApi/pyro"))
 # ———— R U N ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 async def run(command):
   try:
