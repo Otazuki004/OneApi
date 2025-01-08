@@ -45,5 +45,5 @@ async def run(command):
     logging.error(f"Failed to run command '{command}': {e}")
     return False
 # _______________________________________________________________
-DATABASE = AsyncIOMotorClient(MONGO_DB_URL)["OneApi"]
+DATABASE = AsyncIOMotorClient(MONGO_DB_URI)["OneApi"]
 app = Quart(__name__)
