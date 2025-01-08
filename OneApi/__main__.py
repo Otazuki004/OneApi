@@ -3,6 +3,7 @@ from quart import *
 from pyrogram import Client
 import os
 import threading
+from . import *
 
 app = cors(app, allow_origin="*")
 
