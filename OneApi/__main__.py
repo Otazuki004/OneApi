@@ -2,6 +2,7 @@ from quart_cors import cors
 from quart import *
 from . import *
 import os
+from pyrogram import *
 
 app = cors(app, allow_origin="*")
 
