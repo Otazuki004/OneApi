@@ -14,19 +14,20 @@ async def home():
 
 async def run_quart():
     print("Starting Quart...")
-    await app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    await app.run_task(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
     print("Quart stopped.")
 
 async def main():
-    print("Starting bot...")
-    await bot.start()  # Start the Pyrogram bot
-    print("Bot started.")
+    print("Starting bot and Quart together...")
+    await bot.start()  # Start Pyrogram bot
     
-    # Run Quart and idle concurrently
-    await asyncio.gather(
-        run_quart(),
-        idle()  # Keep Pyrogram running
-    )
+    # Run both Quart and Pyrogram idle in the same loop
+    quart_task = asyncio.create_task(run_quart())  # Run Quart server
+    await idle()  # Keep Pyrogram running
+    
+    print("Stopping bot...")
+    await bot.stop()  # Stop Pyrogram bot when idle exits
+    quart_task.cancel()  # Cancel the Quart server task
 
 if __name__ == '__main__':
     asyncio.run(main())
