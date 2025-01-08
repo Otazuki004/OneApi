@@ -10,30 +10,33 @@ app = cors(app, allow_origin="*")
 
 @app.route('/')
 async def home():
-    return jsonify({'success': 'server online'}), 200
+    return {'success': 'server online'}
 
 async def run_bot():
-    await bot.start()  # Start the Pyrogram bot
-    await idle()  # Keeps the bot running indefinitely
+    await bot.start()
+    print("Bot started successfully")
+    await bot.idle()
 
 async def run_quart(loop):
-    # Run Quart app in a new event loop
+    # Set a new event loop for Quart
+    asyncio.set_event_loop(loop)
     await app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
 
-def start_quart_loop():
+def main():
+    # Default loop for Pyrogram
+    pyrogram_loop = asyncio.get_event_loop()
+
     # Create a new event loop for Quart
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)  # Set the new loop
-    loop.run_until_complete(run_quart(loop))  # Run Quart in this new loop
+    quart_loop = asyncio.new_event_loop()
+
+    # Run Pyrogram in the default loop
+    pyrogram_task = pyrogram_loop.create_task(run_bot())
+
+    # Run Quart in its own loop
+    quart_loop.run_until_complete(run_quart(quart_loop))
+
+    # Run Pyrogram loop until it's done
+    pyrogram_loop.run_forever()
 
 if __name__ == '__main__':
-    # Create the event loop for Pyrogram and run it
-    pyrogram_loop = asyncio.get_event_loop()
-    
-    # Run Quart on a separate thread or process
-    from threading import Thread
-    quart_thread = Thread(target=start_quart_loop)
-    quart_thread.start()
-
-    # Run Pyrogram in the main event loop
-    pyrogram_loop.run_until_complete(run_bot())  # Start bot in the main event loop
+    main()
