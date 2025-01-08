@@ -13,7 +13,7 @@ logging.basicConfig(
   level=logging.INFO,
 )
 
-MONGO_DB_URL = os.environ.get("MONGO_DB_URL") or VAR_MONGO_DB_URI
+MONGO_DB_URI = os.environ.get("MONGO_DB_URL") or VAR_MONGO_DB_URI
 API_ID = os.environ.get("API_ID") or VAR_API_ID
 API_HASH = os.environ.get("API_HASH") or VAR_API_HASH
 HANDLER = ["/"]
