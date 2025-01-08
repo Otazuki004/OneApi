@@ -13,9 +13,8 @@ def home():
 
 async def run():
     await asyncio.gather(
-        bot.start(),
-        app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+        bot.run(),
+        app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
     )
-    await idle()
 if __name__ == '__main__':
   asyncio.run(run())
