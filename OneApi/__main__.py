@@ -18,6 +18,4 @@ async def run_():
     await bot.idle()
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.create_task(run_())
-    loop.run_forever()
+    asyncio.run(run_())
