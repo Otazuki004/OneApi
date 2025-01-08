@@ -6,7 +6,7 @@ import asyncio
 async def start():
   await asyncio.sleep(2.5)
   logging.info("Starting pyrogram...")
-  await bot.start()
+  asyncio.gather(bot.start(), idle())
 
 async def main():
     await start()
