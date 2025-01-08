@@ -10,7 +10,8 @@ def start():
     logging.info("Starting pyrogram...")
     loop = asyncio.new_event_loop()  # Create a new event loop
     asyncio.set_event_loop(loop)    # Set it as the current event loop
-    bot.run()  # Run the bot within this loop
+    bot.start()
+    idle() # Run the bot within this loop
 
 oh = threading.Thread(target=start)
 oh.start()
