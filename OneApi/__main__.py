@@ -31,5 +31,6 @@ async def o():
 if __name__ == '__main__':
     print("Starting bot")
     bot.start()
-    idle(asyncio.run(o()))
+    asyncio.run(o())
+    idle()
     print("Bot stoped")
