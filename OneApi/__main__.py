@@ -3,6 +3,7 @@ from quart import *
 from pyrogram import *
 import os
 import asyncio
+from signal import SIGINT, SIGTERM
 from . import bot, app
 
 # Enable CORS for the app
@@ -23,24 +24,30 @@ async def run_quart():
     await app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
     print("Quart stopped.")
 
-def main():
-    # Create a new event loop for Quart
-    quart_loop = asyncio.new_event_loop()
+async def shutdown():
+    print("Shutting down...")
+    await bot.stop()
+    print("Bot stopped.")
 
-    # Start Quart in its own loop
-    quart_task = quart_loop.create_task(run_quart())
-
-    # Run Quart's loop in a background task
-    def start_quart():
-        asyncio.set_event_loop(quart_loop)
-        quart_loop.run_forever()
-
-    # Run Quart in the background
-    asyncio.run_coroutine_threadsafe(start_quart(), quart_loop)
-
-    # Run Pyrogram in the main loop
-    print("Starting Pyrogram loop...")
-    asyncio.run(run_bot())
+async def main():
+    # Use asyncio.gather to run both Pyrogram and Quart concurrently
+    try:
+        await asyncio.gather(run_bot(), run_quart())
+    except (KeyboardInterrupt, asyncio.CancelledError):
+        await shutdown()
 
 if __name__ == '__main__':
-    main()
+    # Handle shutdown signals (Ctrl+C)
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+    for signal in [SIGINT, SIGTERM]:
+        loop.add_signal_handler(signal, lambda: asyncio.create_task(shutdown()))
+
+    try:
+        loop.run_until_complete(main())
+    except KeyboardInterrupt:
+        pass
+    finally:
+        loop.run_until_complete(shutdown())
+        loop.close()
