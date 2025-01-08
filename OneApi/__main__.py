@@ -3,7 +3,6 @@ from quart import *
 from pyrogram import Client
 import os
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 from . import bot, app
 from . import *
 
@@ -16,26 +15,15 @@ async def home():
 
 async def run_bot():
     await bot.start()
-    await idle()  # Keeps the bot running indefinitely
+    await idle()  # Keeps the bot running
 
 async def run_quart():
     await app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
 
-def start_quart():
-    # Run the Quart app's event loop in a separate thread
-    asyncio.run(run_quart())
-
-def start_bot():
-    # Run the Pyrogram bot's event loop in a separate thread
-    asyncio.run(run_bot())
+async def main():
+    # Run both the Quart app and Pyrogram bot concurrently in the same event loop
+    await asyncio.gather(run_quart(), run_bot())
 
 if __name__ == '__main__':
-    # Use ThreadPoolExecutor to run both the bot and Quart in separate threads
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        # Run both functions in separate threads
-        executor.submit(start_quart)
-        executor.submit(start_bot)
-
-    # Keep the main thread running to prevent the program from stopping
-    while True:
-        pass  # Keeps the program alive
+    # Run the event loop with both Quart and Pyrogram tasks
+    asyncio.run(main())
