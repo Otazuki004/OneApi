@@ -15,7 +15,8 @@ async def home():
     return {'success': 'server online'}
 
 async def run_bot():
-    await bot.run()
+    await bot.start()
+    await idle()  # Keeps the bot running indefinitely
 
 async def run_quart():
     await app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
@@ -31,5 +32,10 @@ def start_bot():
 if __name__ == '__main__':
     # Use ThreadPoolExecutor to run both the bot and Quart in separate threads
     with ThreadPoolExecutor(max_workers=2) as executor:
+        # Run both functions in separate threads
         executor.submit(start_quart)
         executor.submit(start_bot)
+
+    # Keep the main thread running to prevent the program from stopping
+    while True:
+        pass  # Keeps the program alive
