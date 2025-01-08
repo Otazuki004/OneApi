@@ -2,8 +2,9 @@ from quart_cors import cors
 from quart import *
 from pyrogram import Client
 import os
-from . import *
 import asyncio
+from . import bot, app
+from . import *
 
 app = cors(app, allow_origin="*")
 
@@ -13,8 +14,10 @@ async def home():
 
 async def run_():
     await bot.start()
-    await app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-    await idle()
-    
+    await app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    await bot.idle()
+
 if __name__ == '__main__':
-    asyncio.run(run_())
+    loop = asyncio.get_event_loop()
+    loop.create_task(run_())
+    loop.run_forever()
