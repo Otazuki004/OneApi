@@ -16,7 +16,7 @@ async def home():
 
 async def run_bot():
     await bot.start()
-    await bot.idle()  # Keeps the bot running
+    await idle()  # Keeps the bot running
 
 async def run_quart():
     await app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
