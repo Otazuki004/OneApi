@@ -16,7 +16,8 @@ async def run_quart():
 
 async def main():
     await bot.start()  # Start the Pyrogram bot
-    await asyncio.gather(run_quart(), idle())  # Run both Quart and Pyrogram concurrently
-
+    asyncio.create_task(run_quart())
+    idle()
+    
 if __name__ == '__main__':
     asyncio.run(main())
