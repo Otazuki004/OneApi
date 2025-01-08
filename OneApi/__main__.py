@@ -11,14 +11,13 @@ app = cors(app, allow_origin="*")
 async def home():
     return {'success': 'server online'}
 
-def run_quart():
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-
 def run_pyrogram():
     bot.start()
     idle()
-
+    
 if __name__ == '__main__':
-    quart_thread = threading.Thread(target=run_quart)
-    quart_thread.start()
-    run_pyrogram()
+    pyrogram_thread = threading.Thread(target=run_pyrogram)
+    pyrogram_thread.daemon = True
+    pyrogram_thread.start()
+
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
