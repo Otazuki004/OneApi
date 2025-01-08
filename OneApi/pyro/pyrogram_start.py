@@ -1,5 +1,5 @@
 from pyrogram import Client, idle
-from . import *
+from .. import *
 import logging
 import asyncio
 
