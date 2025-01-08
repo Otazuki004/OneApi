@@ -1,11 +1,11 @@
 from quart_cors import cors
-from quart import *
-from pyrogram import *
-import os
+from quart import Quart
+from pyrogram import Client, idle
 import asyncio
-from signal import SIGINT, SIGTERM
+import os
 from . import *
 
+# Initialize Quart app and Pyrogram bot
 app = cors(app, allow_origin="*")
 
 @app.route('/')
@@ -18,19 +18,15 @@ async def run_quart():
     print("Quart stopped.")
 
 async def main():
-    print("Main triggered")
-    loop = asyncio.get_event_loop()
-    if loop.is_running():
-        asyncio.ensure_future(run_quart())
-    else:
-        loop.run_until_complete(run_quart())
-
-async def o():
-    asyncio.create_task(main())
+    print("Starting bot...")
+    await bot.start()  # Start the Pyrogram bot
+    print("Bot started.")
+    
+    # Run Quart and idle concurrently
+    await asyncio.gather(
+        run_quart(),
+        idle()  # Keep Pyrogram running
+    )
 
 if __name__ == '__main__':
-    print("Starting bot")
-    bot.start()
-    asyncio.run(o())
-    idle()
-    print("Bot stoped")
+    asyncio.run(main())
