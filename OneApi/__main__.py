@@ -14,21 +14,21 @@ async def home():
     return {'success': 'server online'}
 
 async def run_bot():
-    await bot.start()
-    # Ensure the bot stays alive by calling idle()
-    await idle()
+    await bot.start()  # Start the Pyrogram bot
+    await idle()  # Keeps the bot running indefinitely
 
 async def run_quart():
     await app.run_task(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
 
 async def main():
-    # Create a task for both the Quart app and Pyrogram bot to run concurrently
+    # Run both Quart and Pyrogram in separate tasks
     bot_task = asyncio.create_task(run_bot())
     quart_task = asyncio.create_task(run_quart())
     
-    # Await both tasks to ensure they run concurrently and don't stop prematurely
-    await asyncio.gather(bot_task, quart_task)
+    # Ensure both tasks run concurrently in the same event loop
+    await bot_task
+    await quart_task
 
 if __name__ == '__main__':
-    # Run the event loop with both Quart and Pyrogram tasks
+    # Run the event loop with both tasks
     asyncio.run(main())
