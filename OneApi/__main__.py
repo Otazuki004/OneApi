@@ -3,7 +3,6 @@ from quart import Quart
 import asyncio
 import os
 from . import *
-from OneApi.pyro.pyrogram_start import *
 
 # BLUEPRINTS _____________________
 from .api.exists import exists_bp
