@@ -68,6 +68,7 @@ class user:
           }}
         )
         await db.update_one({"_id": user_id}, {"$set": {"latest_project": latest_project}})
+        return 'ok'
       except Exception as e:
         logging.error(traceback.format_exc())
         return f'Error: {e}'
