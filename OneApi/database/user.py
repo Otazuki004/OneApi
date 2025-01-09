@@ -13,7 +13,7 @@ class user:
         e = traceback.format_exc()
         logging.error(e)
         return f"Error: {w}"
-    async def add(self, name: str, user_id: int):
+    async def create(self, name: str, user_id: int):
       try:
         if await self.find(user_id): return "exists"
         await db.update_one({"_id": 1}, {"$addToSet": {"users": user_id}}, upsert=True)
