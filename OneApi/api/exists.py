@@ -3,6 +3,7 @@ from .. import *
 from quart import *
 
 user = user()
+exists_bp = Blueprint('exists', __name__)
 
 @app.route('/exists/', methods=['POST'])
 async def exists():
