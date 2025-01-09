@@ -5,6 +5,12 @@ import os
 from . import *
 from OneApi.pyro.pyrogram_start import *
 
+# BLUEPRINTS _____________________
+from .api.exists import exists_bp
+
+app.register_blueprint(exists_bp)
+# ---------------------------------
+
 app = cors(app, allow_origin="*")
 
 @app.route('/')
