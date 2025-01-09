@@ -6,8 +6,10 @@ from . import *
 
 # BLUEPRINTS _____________________
 from .api.exists import exists_bp
+from .api.create_user import create_user_bp
 
 app.register_blueprint(exists_bp)
+app.register_blueprint(create_user_bp)
 # ---------------------------------
 
 app = cors(app, allow_origin="*")
