@@ -3,7 +3,7 @@ import logging
 
 db = DATABASE['user']
 
-class User:
+class user:
     async def find(self, user_id):
         user = await db.find_one({"_id": user_id})
         return user
