@@ -9,10 +9,10 @@ class user:
       try:
         user = await db.find_one({"_id": user_id})
         return user
-      except:
+      except Exception as w:
         e = traceback.format_exc()
         logging.error(e)
-        return f"Error: {e}"
+        return f"Error: {w}"
     async def add(self, name: str, user_id: int):
       try:
         if await self.find(user_id): return "exists"
@@ -23,7 +23,7 @@ class user:
             upsert=True
         )
         return 'ok'
-      except:
+      except Exception as w:
         e = traceback.format_exc()
         logging.error(e)
-        return f"Error: {e}"
+        return f"Error: {w}"
