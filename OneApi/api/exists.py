@@ -1,6 +1,6 @@
 from ..database import *
-from .. import *
 from quart import *
+from .. import *
 
 user = user()
 exists_bp = Blueprint('exists', __name__)
