@@ -11,7 +11,7 @@ async def get_projects():
   if not data or not 'user_id' in data: return jsonify({'error': 'missing user_id'}), 400
   user_id = int(data.get('user_id'))
   ohk = await user.get_projects(user_id)
-  if ohk == "projects not found":
+  if ohk == "projects not found" or ohk == "not exists":
     return jsonify({"message": ohk}), 404
   elif 'Error' in ohk:
     return jsonify({"error": ohk}), 400
