@@ -8,7 +8,7 @@ from . import *
 from .api.exists import exists_bp
 from .api.create_user import create_user_bp
 from .api.get_projects import get_projects_bp
-from .create_project import create_project_bp 
+from .api.create_project import create_project_bp 
 
 app.register_blueprint(exists_bp)
 app.register_blueprint(create_user_bp)
