@@ -19,7 +19,7 @@ class user:
         await db.update_one({"_id": 1}, {"$addToSet": {"users": user_id}}, upsert=True)
         await db.update_one(
             {"_id": user_id},
-            {"$set": {"name": name, "coins": 1000000, "projects": [{"name": "Basic Project", "project_id": 1}]}},
+            {"$set": {"name": name, "coins": 1000000, "projects": []}},
             upsert=True
         )
         return 'ok'
