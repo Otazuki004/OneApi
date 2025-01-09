@@ -44,7 +44,7 @@ class user:
         elif not name and len(name) < 4:
           return 'Name too short'
         user = await self.find(user_id)
-        name, latest_project = name[:15], user.get('latest_project') + 1
+        name, latest_project = name[:15], int(user.get('latest_project', 0)) + 1
         
         if any(proj.get('name') == name for proj in user.get('projects', [])):
           return "Name already used"
