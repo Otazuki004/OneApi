@@ -5,9 +5,7 @@ from .methods import *
 
 db = DATABASE['user_new']
 
-class user:
-    def __init__(self):
-      self.user_info = user_info
+class user(Methods):
     async def find(self, user_id: int):
       try:
         user = await db.find_one({"_id": user_id})
