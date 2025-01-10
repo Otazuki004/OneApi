@@ -42,7 +42,7 @@ class user:
       try:
         user = await self.find(user_id)
         if not user: return "not exists"
-        elif not name and len(name) < 4:
+        elif name and len(name) < 4:
           return 'Name too short'
         
         name, latest_project = name[:15], int(user.get('latest_project', 0)) + 1
