@@ -2,7 +2,7 @@ from .. import DATABASE
 import logging
 import traceback 
 
-db = DATABASE['user']
+db = DATABASE['user_new']
 
 class user:
     async def find(self, user_id: int):
