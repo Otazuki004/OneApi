@@ -1,10 +1,13 @@
 from .. import DATABASE
 import logging
 import traceback 
+from .methods import *
 
 db = DATABASE['user_new']
 
 class user:
+    def __init__(self):
+      self.user_info = user_info
     async def find(self, user_id: int):
       try:
         user = await db.find_one({"_id": user_id})
