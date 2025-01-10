@@ -70,7 +70,12 @@ class user:
           {"$set": {
             "name": name,
             "id": latest_project,
-            "data": {}
+            "plan": plan,
+            "ram": 'god',
+            "rom": 'god',
+            "repo": 'Not set',
+            "apt-allowed": False,
+            "language": 'Mano'
           }},
           upsert=True
         )
