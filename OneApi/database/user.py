@@ -72,3 +72,21 @@ class user:
       except Exception as e:
         logging.error(traceback.format_exc())
         return f'Error: {e}'
+    async def delete_project(self, user_id: int, project_id: int):
+      try:
+        user = await self.find(user_id)
+        if not user:
+          return "not exists"
+        if not user.get('projects'):
+          return "Project not found"
+        if not any(proj.get('project_id') == project_id for proj in user.get('projects', [])):
+          return "Project not found"
+        await db.delete_one({"_id": f"{user_id}{project_id}"})
+        await db.update_one(
+          {"_id": user_id},
+          {"$pull": {"projects": {"project_id": project_id}}}
+        )
+        return "ok"
+      except Exception as e:
+        logging.error(traceback.format_exc())
+        return f"Error: {e}"
