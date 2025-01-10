@@ -1,9 +1,9 @@
-from ..user import db
 import traceback
 import logging
 
 async def user_info(self, user_id):
   try:
+    from ..user import db
     user = await self.find(user_id)
     if not user: return "not exists"
 
