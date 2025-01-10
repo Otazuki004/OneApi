@@ -19,7 +19,7 @@ class user:
         await db.update_one({"_id": 1}, {"$addToSet": {"users": user_id}}, upsert=True)
         await db.update_one(
             {"_id": user_id},
-            {"$set": {"name": name, "coins": 1000000, "projects": [], 'latest_project': 0}},
+            {"$set": {"name": name, "coins": 0, "projects": [], 'latest_project': 0}},
             upsert=True
         )
         return 'ok'
@@ -38,16 +38,32 @@ class user:
         e = traceback.format_exc()
         logging.error(e)
         return f"Error: {oh}"
-    async def create_project(self, name: str, user_id: int):
+    async def create_project(self, name: str, user_id: int, plan: str):
       try:
-        if not await self.find(user_id): return "not exists"
+        user = await self.find(user_id)
+        if not user: return "not exists"
         elif not name and len(name) < 4:
           return 'Name too short'
-        user = await self.find(user_id)
+        
         name, latest_project = name[:15], int(user.get('latest_project', 0)) + 1
+        coins = user.get('coins', 0)
         
         if any(proj.get('name') == name for proj in user.get('projects', [])):
           return "Name already used"
+        
+        if plan == 'free':
+          plan_price = 0
+        elif plan == 'basic':
+          plan_price = 99
+        elif plan == 'advance':
+          plan_price = 199
+        elif plan == 'pro':
+          plan_price = 269
+        else: return 'Plan not found'
+        if coins < plan_price:
+          return 'insufficient coins'
+
+        if plan_price != 0: await db.update_one({"_id": user_id}, {"$set": {'coins': coins-plan_price}})
         
         await db.update_one(
           {"_id": f'{user_id}{latest_project}'},
