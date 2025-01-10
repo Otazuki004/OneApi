@@ -1,5 +1,5 @@
 from quart_cors import cors
-from quart import Quart
+from quart import *
 import asyncio
 import os
 from . import *
