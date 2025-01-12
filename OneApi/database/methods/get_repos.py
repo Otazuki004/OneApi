@@ -29,6 +29,7 @@ class GetRepos:
 
             link_header = r.headers.get('Link', '')
             next_page_url = None
+            print("MAIN:", link_header)
 
             # Check if there is a next page
             if 'rel="next"' in link_header:
