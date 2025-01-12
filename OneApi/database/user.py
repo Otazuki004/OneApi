@@ -2,6 +2,7 @@ from .. import DATABASE
 import logging
 import traceback 
 from .methods import *
+import httpx
 
 db = DATABASE['user_nel']
 
