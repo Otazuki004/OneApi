@@ -22,7 +22,7 @@ class GetRepos:
           r = await mano.get(url, headers=headers)
           if r.status_code == 200:
             data = r.json()
-            if not data["repositories"]: return 
+            if not data["repositories"]: break
             for x in data["repositories"]:
               name, id = x.get('name'), x.get('id')
               ily.append({'name': name, 'id': id})
@@ -30,6 +30,8 @@ class GetRepos:
               links = r.headers["Link"]
               next_link = [link.split(";")[0].strip("<>") for link in links.split(",") if 'rel="next"' in link]
               url = next_link[0] if next_link else None
+              if url and not url.startswith("http"):
+                url = f"https://api.github.com{url}"  # Ensure the URL is absolute
             else:
               break
           else:
