@@ -34,6 +34,7 @@ class GetRepos:
                         link_header = r.headers.get('Link', '')
                         if 'rel="next"' in link_header and ((link_header.replace('\n', '')).split(',')[0].split(';')[0][1:-1]) not in ohi:
                             url = ((link_header.replace('\n', '')).split(',')[0].split(';')[0][1:-1])
+                            ohi.append(url)
                         else:
                             url = None
                     else:
