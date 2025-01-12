@@ -3,3 +3,4 @@ motor==3.6.0
 pymongo[srv]
 kurigram
 TgCrypto
+quart-cors
