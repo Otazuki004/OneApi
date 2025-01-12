@@ -17,8 +17,7 @@ class GetRepos:
                 "Accept": "application/vnd.github+json"
             }
             repos = []
-            ohi = []
-            
+            pages = []
             while url:
                 async with httpx.AsyncClient() as mano:
                     r = await mano.get(url, headers=headers)
@@ -32,9 +31,13 @@ class GetRepos:
                             repos.append({'name': name, 'id': id})
                         
                         link_header = r.headers.get('Link', '')
-                        if 'rel="next"' in link_header and ((link_header.replace('\n', '')).split(',')[0].split(';')[0][1:-1]) not in ohi:
-                            url = ((link_header.replace('\n', '')).split(',')[0].split(';')[0][1:-1])
-                            ohi.append(url)
+                        if 'rel="last"' in link_header:
+                            fk = len(link_header.split('?')) - 1
+                            fk = int(link_header.split('?')[fk][5]) + 1
+                            pages.append(list(range(1, fk)))
+                            if 1 in pages: pages.remove(1)
+                            url = f"https://api.github.com/installation/repositories?page={min(pages)}"
+                            pages.remove(min(pages))
                         else:
                             url = None
                     else:
