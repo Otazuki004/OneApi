@@ -20,23 +20,28 @@ class GetRepos:
                 "Accept": "application/vnd.github+json"
             }
 
-            repos = []
+            repos = set()  # Use a set to prevent duplicate entries
             async with httpx.AsyncClient() as client:
                 while url:
                     response = await client.get(url, headers=headers)
                     response.raise_for_status()
 
                     data = response.json()
-                    repos.extend([{"name": repo["name"], "id": repo["id"]} for repo in data["repositories"]])
+                    repos.update({(repo["id"], repo["name"]) for repo in data["repositories"]})
 
-                    # Check for next page link in the 'Link' header
+                    # Parse 'Link' header to get the next page
                     link_header = response.headers.get("Link")
-                    if link_header and 'rel="next"' in link_header:
-                        url = link_header.split(";")[0].strip("<>")
+                    if link_header:
+                        links = {
+                            rel.split('=')[1].strip('"'): url.strip("<>")
+                            for url, rel in [link.split(";") for link in link_header.split(",")]
+                        }
+                        url = links.get("next")  # Set the URL to the next page, or None if it doesn't exist
                     else:
                         url = None
 
-            return repos
+            # Return repos as a list of dictionaries
+            return [{"id": repo[0], "name": repo[1]} for repo in repos]
 
         except httpx.HTTPStatusError as http_err:
             if http_err.response.status_code == 401:
