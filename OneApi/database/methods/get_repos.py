@@ -19,7 +19,7 @@ class GetRepos:
       async with httpx.AsyncClient() as mano:
         r = await mano.get(url, headers=headers)
         if r.status_code == 200:
-          data = response.json()
+          data = r.json()
           if not data["repositories"]: return []
           ily = []
           for x in data["repositories"]:
