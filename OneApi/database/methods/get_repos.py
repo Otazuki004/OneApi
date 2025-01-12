@@ -1,19 +1,34 @@
-import httpx
-import logging
 import traceback
+import logging
+import httpx 
 
 class GetRepos:
   async def get_repos(self, user_id: int):
-    if not self.connected: raise ConnectionError("OneApi isn't connected")
     try:
-      data = {"user_id": user_id}
-      async with httpx.AsyncClient() as client:
-        response = await client.post(f'{self.url}/get_repos/', json=data)
-        print(response.json())
-        if response.status_code == 200:
-          return response.json().get('message')
-        elif 'error' in response.json():
-          self.log.error(f"[!] OneApi error: {response.status_code}: {response.text}")
-    except:
-      self.log.error(traceback.format_exc())
-    return False
+      db, cb = self.db, self.cb
+      user = await self.find(user_id)
+      if not user: return 'not exists'
+      token = (await cb.find_one({"_id": int(user_id)})).get('token', None)
+      if not token: return "not exists"
+    
+      url = "https://api.github.com/installation/repositories"
+      headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json"
+      }
+      async with httpx.AsyncClient() as mano:
+        r = await mano.get(url, headers=headers)
+        if r.status_code == 200:
+          data = r.json()
+          if not data["repositories"]: return []
+          ily = []
+          for x in data["repositories"]:
+            name, id = x.get('name'), x.get('id')
+            ily.append({'name': name, 'id': id})
+          return ily
+        else:
+          logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
+          return "failed"
+    except Exception as w:
+      logging.error(traceback.format_exc())
+      return f"Error: {w}"
