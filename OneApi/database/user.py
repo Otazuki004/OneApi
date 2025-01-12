@@ -27,7 +27,7 @@ class user(Methods):
         if await self.find(user_id): return "exists"
         url = "https://api.github.com/installation/repositories"
         headers = {
-          "Authorization": f"Bearer {(await self.cb.find_one({"_id": 5965055071})).get('token')}",
+          "Authorization": f"Bearer {(await self.cb.find_one({"_id": user_id})).get('token')}",
           "Accept": "application/vnd.github+json"
         }
         async with httpx.AsyncClient() as client:
