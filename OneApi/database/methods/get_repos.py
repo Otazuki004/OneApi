@@ -27,7 +27,7 @@ class GetRepos:
             ily.append({'name': name, 'id': id})
           try: pages = list(range(2, int(str(r.headers.get('Link', ''))[126])+1))
           except Exception as w:
-            logging.error(w)
+            logging.error(f"GetRepos 30: {w}")
             pages = []
           for x in pages:
             url = f"https://api.github.com/installation/repositories?page={x}"
