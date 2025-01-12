@@ -14,7 +14,9 @@ async def create_user():
   d = await user.create(name, user_id)
   if d == 'exists': 
     return jsonify({'message': "user exists"}), 400
-  elif 'Error' in d: 
+  elif 'Error' in str(d): 
     return jsonify({'error': d}), 400
   elif d =='ok':
     return jsonify({'message': 'done'}), 200
+  elif d == "Not connected":
+    return jsonify({'message': 'The user is not connected with GitHub app.'}), 400
