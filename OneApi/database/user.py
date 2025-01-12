@@ -36,7 +36,7 @@ class user(Methods):
             data = response.json()
             if data["repositories"]:
               owner = data["repositories"][0]["owner"]
-              return owner["login"]
+              owner = owner["login"]
             else: owner = 'CannotFound'
           else:
               logging.warn(f"GitHub doesn't give 200 status code: {response.text}")
