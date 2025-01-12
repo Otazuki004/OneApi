@@ -12,7 +12,7 @@ class UserInfo:
         "name": user.get('name'),
         "coins": user.get('coins'),
         "projects": len(user.get('projects')),
-        "git": user.get('git_name')
+        "git": user.get('git')
       }
       return data
     except Exception as w:
