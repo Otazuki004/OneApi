@@ -4,7 +4,7 @@ import traceback
 from .methods import *
 import httpx
 
-db = DATABASE['user_nel']
+db = DATABASE['user_nels']
 
 class user(Methods):
     def __init__(self):
