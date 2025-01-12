@@ -25,7 +25,18 @@ class GetRepos:
           for x in data["repositories"]:
             name, id = x.get('name'), x.get('id')
             ily.append({'name': name, 'id': id})
-          print("Main bro:", str(r.headers.get('Link', ''))[126])
+          try: pages = list(range(2, int(str(r.headers.get('Link', ''))[126])+1))
+          except Exception as w:
+            logging.error(w)
+            pages = []
+          for x in pages:
+            url = f"https://api.github.com/installation/repositories?page={x}"
+            k = await mano.get(url, headers=headers)
+            data = k.json()
+            if k.status_code == 200 and if data.get("repositories")::
+              for x in data["repositories"]:
+                name, id = x.get('name'), x.get('id')
+                ily.append({'name': name, 'id': id})
           return ily
         else:
           logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
