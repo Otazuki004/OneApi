@@ -32,7 +32,8 @@ class GetRepos:
 
             # Extract next page URL from the 'Link' header
             if 'rel="next"' in link_header:
-              next_page_url = print(link_header.split(',')[1].split(';')[0][1:-1])
+              next_page_url = link_header.split(',')[1].split(';')[0][1:-1]
+              print(next_page_url)
 
             if not next_page_url:
               url = None
