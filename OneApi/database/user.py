@@ -3,7 +3,7 @@ import logging
 import traceback 
 from .methods import *
 
-db = DATABASE['user_new']
+db = DATABASE['user_nee']
 
 class user(Methods):
     def __init__(self):
