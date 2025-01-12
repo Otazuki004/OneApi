@@ -6,8 +6,15 @@ from .methods import *
 db = DATABASE['user_new']
 
 class user(Methods):
-    async def find(self, user_id: int):
+    def __init__():
+      self.db = db
+      self.cb = DATABASE['cb']
+    async def find(self, user_id: int, check=False):
       try:
+        if check:
+          if await db.find_one({"_id": user_id}) and await cb.find_one({"_id": user_id}):
+            return True
+          return False
         user = await db.find_one({"_id": user_id})
         return user
       except Exception as w:
