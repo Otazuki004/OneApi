@@ -1,47 +1,46 @@
 import traceback
 import logging
-import httpx 
+import httpx
 
 class GetRepos:
-  async def get_repos(self, user_id: int):
-    try:
-      db, cb = self.db, self.cb
-      user = await self.find(user_id)
-      if not user: return 'not exists'
-      token = (await cb.find_one({"_id": int(user_id)})).get('token', None)
-      if not token: return "not exists"
-    
-      url = "https://api.github.com/installation/repositories"
-      headers = {
-        "Authorization": f"Bearer {token}",
-        "Accept": "application/vnd.github+json"
-      }
-      logging.debug(f"URL: {url}")
-      logging.debug(f"Headers: {headers}")
+    async def get_repos(self, user_id: int):
+        try:
+            db, cb = self.db, self.cb
+            user = await self.find(user_id)
+            if not user:
+                return 'User not exists'
 
-      ily = []
-      async with httpx.AsyncClient() as mano:
-        while url:
-          r = await mano.get(url, headers=headers)
-          logging.debug(f"Response status: {r.status_code}")
-          if r.status_code == 200:
-            data = r.json()
-            if not data["repositories"]: break
-            for x in data["repositories"]:
-              name, id = x.get('name'), x.get('id')
-              ily.append({'name': name, 'id': id})
-            if "Link" in r.headers:
-              links = r.headers["Link"]
-              next_link = [link.split(";")[0].strip("<>") for link in links.split(",") if 'rel="next"' in link]
-              url = next_link[0] if next_link else None
-              if url and not url.startswith("http"):
-                url = f"https://api.github.com{url}"
+            token = (await cb.find_one({"_id": int(user_id)})).get('token', None)
+            if not token:
+                return "Token not exists"
+
+            url = "https://api.github.com/installation/repositories"
+            headers = {
+                "Authorization": f"Bearer {token}",
+                "Accept": "application/vnd.github+json"
+            }
+
+            async with httpx.AsyncClient() as client:
+                response = await client.get(url, headers=headers)
+                
+                # Explicitly raise an exception for HTTP errors
+                response.raise_for_status()
+
+                data = response.json()
+                if not data.get("repositories"):
+                    return []
+
+                return [{"name": repo["name"], "id": repo["id"]} for repo in data["repositories"]]
+
+        except httpx.HTTPStatusError as http_err:
+            if http_err.response.status_code == 401:
+                return "Unauthorized: Invalid or expired token"
+            elif http_err.response.status_code == 404:
+                return "Not Found: Endpoint is incorrect"
             else:
-              break
-          else:
-            logging.error(f"Failed to get repos of user {user_id}: {r.text}")
-            return "failed"
-      return ily
-    except Exception as w:
-      logging.error(traceback.format_exc())
-      return f"Error: {w}"
+                logging.error(f"HTTP error occurred: {http_err.response.text}")
+                return f"Failed with status {http_err.response.status_code}"
+
+        except Exception as e:
+            logging.error(traceback.format_exc())
+            return f"Error: {e}"
