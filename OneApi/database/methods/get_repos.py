@@ -33,7 +33,7 @@ class GetRepos:
             url = f"https://api.github.com/installation/repositories?page={x}"
             k = await mano.get(url, headers=headers)
             data = k.json()
-            if k.status_code == 200 and data.get("repositories")::
+            if k.status_code == 200 and data.get("repositories"):
               for x in data["repositories"]:
                 name, id = x.get('name'), x.get('id')
                 ily.append({'name': name, 'id': id})
