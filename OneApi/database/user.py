@@ -38,7 +38,9 @@ class user(Methods):
               owner = data["repositories"][0]["owner"]
               return owner["login"]
             else: owner = 'CannotFound'
-          else: return "Not connected"
+          else:
+              logging.warn(response.text)
+              return "Not connected"
         await db.update_one({"_id": 1}, {"$addToSet": {"users": user_id}}, upsert=True)
         await db.update_one(
             {"_id": user_id},
