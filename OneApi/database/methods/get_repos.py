@@ -17,6 +17,7 @@ class GetRepos:
                 "Accept": "application/vnd.github+json"
             }
             repos = []
+            ohi = []
             
             while url:
                 async with httpx.AsyncClient() as mano:
@@ -31,8 +32,8 @@ class GetRepos:
                             repos.append({'name': name, 'id': id})
                         
                         link_header = r.headers.get('Link', '')
-                        if 'rel="next"' in link_header:
-                            url = (link_header.replace('\n', '')).split(',')[0].split(';')[0][1:-1]
+                        if 'rel="next"' in link_header and ((link_header.replace('\n', '')).split(',')[0].split(';')[0][1:-1]) not in ohi:
+                            url = ((link_header.replace('\n', '')).split(',')[0].split(';')[0][1:-1])
                         else:
                             url = None
                     else:
