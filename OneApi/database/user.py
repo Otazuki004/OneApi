@@ -24,10 +24,24 @@ class user(Methods):
     async def create(self, name: str, user_id: int):
       try:
         if await self.find(user_id): return "exists"
+        url = "https://api.github.com/installation/repositories"
+        headers = {
+          "Authorization": f"Bearer {await self.cb.find_one({"_id": 5965055071}).get('token')}",
+          "Accept": "application/vnd.github+json"
+        }
+        async with httpx.AsyncClient() as client:
+          response = await client.get(url, headers=headers)
+          if response.status_code == 200:
+            data = response.json()
+            if data["repositories"]:
+              owner = data["repositories"][0]["owner"]
+              return owner["login"]
+            else: owner = 'CannotFound'
+          else: return "Not connected"
         await db.update_one({"_id": 1}, {"$addToSet": {"users": user_id}}, upsert=True)
         await db.update_one(
             {"_id": user_id},
-            {"$set": {"name": name, "coins": 0, "projects": [], 'latest_project': 0}},
+            {"$set": {"name": name, "coins": 0, "projects": [], 'latest_project': 0, 'git': owner}},
             upsert=True
         )
         return 'ok'
