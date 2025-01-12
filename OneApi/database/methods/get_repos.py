@@ -20,23 +20,27 @@ class GetRepos:
                 "Accept": "application/vnd.github+json"
             }
 
-            repos = set()  # Use a set to prevent duplicate entries
+            repos = set()  # Use a set to prevent duplicates
             async with httpx.AsyncClient() as client:
                 while url:
+                    # Validate the URL
+                    if not url.startswith(("http://", "https://")):
+                        raise ValueError(f"Invalid URL: {url}")
+
                     response = await client.get(url, headers=headers)
                     response.raise_for_status()
 
                     data = response.json()
                     repos.update({(repo["id"], repo["name"]) for repo in data["repositories"]})
 
-                    # Parse 'Link' header to get the next page
+                    # Parse 'Link' header to find the next page
                     link_header = response.headers.get("Link")
                     if link_header:
                         links = {
                             rel.split('=')[1].strip('"'): url.strip("<>")
                             for url, rel in [link.split(";") for link in link_header.split(",")]
                         }
-                        url = links.get("next")  # Set the URL to the next page, or None if it doesn't exist
+                        url = links.get("next")  # Update the URL for the next page, or None
                     else:
                         url = None
 
@@ -51,6 +55,10 @@ class GetRepos:
             else:
                 logging.error(f"HTTP error occurred: {http_err.response.text}")
                 return f"Failed with status {http_err.response.status_code}"
+
+        except ValueError as ve:
+            logging.error(f"ValueError: {ve}")
+            return str(ve)
 
         except Exception as e:
             logging.error(traceback.format_exc())
