@@ -29,13 +29,11 @@ class GetRepos:
 
             link_header = r.headers.get('Link', '')
             next_page_url = None
-            print("MAIN:", link_header)
 
-            # Check if there is a next page
+            # Extract next page URL from the 'Link' header
             if 'rel="next"' in link_header:
-              next_page_url = link_header.split(',')[0].split(';')[0][1:-1]  # Get next page URL
-              
-            # If there's no "next" link, break the loop
+              next_page_url = link_header.split(',')[1].split(';')[0][1:-1]
+
             if not next_page_url:
               url = None
             else:
