@@ -11,7 +11,7 @@ class GetRepos:
       token = (await cb.find_one({"_id": int(user_id)})).get('token', None)
       if not token: return "not exists"
     
-      url = "https://api.github.com/installation/repositories"
+      url = "https://api.github.com/installation/repositories?page=2"
       headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json"
