@@ -6,7 +6,7 @@ from .methods import *
 db = DATABASE['user_new']
 
 class user(Methods):
-    def __init__():
+    def __init__(self):
       self.db = db
       self.cb = DATABASE['cb']
     async def find(self, user_id: int, check=False):
