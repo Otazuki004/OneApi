@@ -26,12 +26,19 @@ class GetRepos:
             for x in data["repositories"]:
               name, id = x.get('name'), x.get('id')
               repos.append({'name': name, 'id': id})
+
             link_header = r.headers.get('Link', '')
-            if 'rel="last"' in link_header:
-              next_page = link_header.split('page=')[1].split('>')[0]
-              url = f"https://api.github.com/installation/repositories?page={next_page}"
-            else:
+            next_page_url = None
+
+            # Check if there is a next page
+            if 'rel="next"' in link_header:
+              next_page_url = link_header.split(',')[0].split(';')[0][1:-1]  # Get next page URL
+              
+            # If there's no "next" link, break the loop
+            if not next_page_url:
               url = None
+            else:
+              url = next_page_url  # Set URL to next page's URL
           else:
             logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
             return "failed"
