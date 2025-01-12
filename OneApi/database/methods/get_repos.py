@@ -25,7 +25,8 @@ class GetRepos:
           for x in data["repositories"]:
             name, id = x.get('name'), x.get('id')
             ily.append({'name': name, 'id': id})
-          print("Main bro:", r.headers.get('Link', ''))
+          print("Main bro:", str(r.headers.get('Link', '')).replace("""<https://api.github.com/installation/repositories?page=2>;
+rel="next", <https://api.github.com/installation/repositories?page""", ''))
           return ily
         else:
           logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
