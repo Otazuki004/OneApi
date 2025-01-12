@@ -13,7 +13,7 @@ class user(Methods):
     async def find(self, user_id: int, check=False):
       try:
         if check:
-          if await db.find_one({"_id": user_id}) and await cb.find_one({"_id": user_id}):
+          if await db.find_one({"_id": user_id}) and await self.cb.find_one({"_id": user_id}):
             return True
           return False
         user = await db.find_one({"_id": user_id})
@@ -25,6 +25,7 @@ class user(Methods):
     async def create(self, name: str, user_id: int):
       try:
         if await self.find(user_id): return "exists"
+        if not await self.cb.find_one({"_id": user_id}): return "Not connected"
         url = "https://api.github.com/installation/repositories"
         headers = {
           "Authorization": f"Bearer {(await self.cb.find_one({"_id": user_id})).get('token')}",
