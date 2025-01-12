@@ -16,10 +16,14 @@ class GetRepos:
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json"
       }
+      logging.debug(f"URL: {url}")
+      logging.debug(f"Headers: {headers}")
+
       ily = []
       async with httpx.AsyncClient() as mano:
         while url:
           r = await mano.get(url, headers=headers)
+          logging.debug(f"Response status: {r.status_code}")
           if r.status_code == 200:
             data = r.json()
             if not data["repositories"]: break
@@ -31,11 +35,11 @@ class GetRepos:
               next_link = [link.split(";")[0].strip("<>") for link in links.split(",") if 'rel="next"' in link]
               url = next_link[0] if next_link else None
               if url and not url.startswith("http"):
-                url = f"https://api.github.com{url}"  # Ensure the URL is absolute
+                url = f"https://api.github.com{url}"
             else:
               break
           else:
-            logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
+            logging.error(f"Failed to get repos of user {user_id}: {r.text}")
             return "failed"
       return ily
     except Exception as w:
