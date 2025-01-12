@@ -1,6 +1,7 @@
 from ..database import *
 from quart import *
 from .. import *
+import logging 
 
 user = user()
 exists_bp = Blueprint('exists', __name__)
@@ -11,6 +12,7 @@ async def exists():
   if not data or not 'user_id' in data: return jsonify({'error': 'missing user_id'}), 400
   user_id = int(data.get('user_id'))
   d = await user.find(user_id, check=True)
-  if not d: return jsonify({'message': "user not found"}), 404
+  if d: return jsonify({'message': 'user exists'}), 200
+  elif not d: return jsonify({'message': "user not found"}), 404
   elif 'error' in d: return jsonify({'error': d}), 400
-  return jsonify({'message': 'user exists'}), 200
+  else: logging.info(d)
