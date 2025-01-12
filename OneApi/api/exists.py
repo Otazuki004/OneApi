@@ -14,5 +14,5 @@ async def exists():
   d = await user.find(user_id, check=True)
   if d: return jsonify({'message': 'user exists'}), 200
   elif not d: return jsonify({'message': "user not found"}), 404
-  elif 'error' in d: return jsonify({'error': d}), 400
+  elif 'Error' in d: return jsonify({'error': d}), 400
   else: logging.info(d)
