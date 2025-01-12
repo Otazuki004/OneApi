@@ -25,6 +25,7 @@ class GetRepos:
           for x in data["repositories"]:
             name, id = x.get('name'), x.get('id')
             ily.append({'name': name, 'id': id})
+          logging.info(f"MAIN {r.headers.get('Link', '')}")
           return ily
         else:
           logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
