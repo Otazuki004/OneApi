@@ -27,7 +27,7 @@ class GetRepos:
             ily.append({'name': name, 'id': id})
           return ily
         else:
-          logging.info(f"Failed to get repos of user: {user_id}: {response.text}")
+          logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
           return "failed"
     except Exception as w:
       logging.error(traceback.format_exc())
