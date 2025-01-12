@@ -20,17 +20,23 @@ class GetRepos:
                 "Accept": "application/vnd.github+json"
             }
 
+            repos = []
             async with httpx.AsyncClient() as client:
-                response = await client.get(url, headers=headers)
-                
-                # Explicitly raise an exception for HTTP errors
-                response.raise_for_status()
+                while url:
+                    response = await client.get(url, headers=headers)
+                    response.raise_for_status()
 
-                data = response.json()
-                if not data.get("repositories"):
-                    return []
+                    data = response.json()
+                    repos.extend([{"name": repo["name"], "id": repo["id"]} for repo in data["repositories"]])
 
-                return [{"name": repo["name"], "id": repo["id"]} for repo in data["repositories"]]
+                    # Check for next page link in the 'Link' header
+                    link_header = response.headers.get("Link")
+                    if link_header and 'rel="next"' in link_header:
+                        url = link_header.split(";")[0].strip("<>")
+                    else:
+                        url = None
+
+            return repos
 
         except httpx.HTTPStatusError as http_err:
             if http_err.response.status_code == 401:
