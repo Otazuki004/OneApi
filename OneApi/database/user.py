@@ -39,7 +39,7 @@ class user(Methods):
               return owner["login"]
             else: owner = 'CannotFound'
           else:
-              logging.warn(response.text)
+              logging.warn(f"GitHub doesn't give 200 status code: {response.text}")
               return "Not connected"
         await db.update_one({"_id": 1}, {"$addToSet": {"users": user_id}}, upsert=True)
         await db.update_one(
