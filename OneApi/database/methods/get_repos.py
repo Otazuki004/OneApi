@@ -11,7 +11,7 @@ class GetRepos:
       token = (await cb.find_one({"_id": int(user_id)})).get('token', None)
       if not token: return "not exists"
     
-      url = "https://api.github.com/installation/repositories?page=2"
+      url = "https://api.github.com/installation/repositories?page=1"
       headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json"
@@ -25,6 +25,7 @@ class GetRepos:
           for x in data["repositories"]:
             name, id = x.get('name'), x.get('id')
             ily.append({'name': name, 'id': id})
+          print("Main bro:", r.headers.get('Link', ''))
           return ily
         else:
           logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
