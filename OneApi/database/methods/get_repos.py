@@ -8,9 +8,9 @@ class GetRepos:
       db, cb = self.db, self.cb
       user = await self.find(user_id)
       if not user: return 'not exists'
-      token = (await cb.find_one({"_id": int(user_id)})).get('token', None)
-      if not token: return "not exists"
-    
+      installation_id = (await cb.find_one({"_id": int(user_id)})).get('installation_id', None)
+      if not installation_id: return "not exists"
+      token = await self.gen_token(installation_id)
       url = "https://api.github.com/installation/repositories?page=1"
       headers = {
         "Authorization": f"Bearer {token}",
