@@ -1,6 +1,5 @@
 import traceback
 import logging
-import httpx 
 
 class DeleteUser:
   async def delete_user(self, user_id: int):
