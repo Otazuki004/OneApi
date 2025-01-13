@@ -9,7 +9,7 @@ APP_ID = "1109508"
 async def gen_token(installation_id):
     payload = {
         "iat": int(time()),
-        "exp": int(time()) + 600,
+        "exp": int(time()) + 60,
         "iss": APP_ID,
     }
     jwt_token = jwt.encode(payload, PRIVATE_KEY, algorithm="RS256")
