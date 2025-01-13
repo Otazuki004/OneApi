@@ -3,6 +3,7 @@ import logging
 import traceback 
 from .methods import *
 import httpx
+from ..others import *
 
 db = DATABASE['user_nelsk']
 
@@ -10,6 +11,7 @@ class user(Methods):
     def __init__(self):
       self.db = db
       self.cb = DATABASE['cb']
+      self.gen_token = gen_token
     async def find(self, user_id: int, check=False):
       try:
         if check:
@@ -27,8 +29,10 @@ class user(Methods):
         if await self.find(user_id): return "exists"
         if not await self.cb.find_one({"_id": user_id}): return "Not connected"
         url = "https://api.github.com/installation/repositories"
+        token = await self.gen_token((await self.cb.find_one({"_id": user_id})).get('installation_id'))
+        if not token: return "Not connected"
         headers = {
-          "Authorization": f"Bearer {(await self.cb.find_one({"_id": user_id})).get('token')}",
+          "Authorization": f"Bearer {token}",
           "Accept": "application/vnd.github+json"
         }
         async with httpx.AsyncClient() as client:
