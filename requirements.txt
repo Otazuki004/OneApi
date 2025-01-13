@@ -4,3 +4,5 @@ pymongo[srv]
 kurigram
 TgCrypto
 quart-cors
+cryptography
+pyjwt
