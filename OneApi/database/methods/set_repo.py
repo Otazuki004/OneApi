@@ -18,7 +18,9 @@ class SetRepo:
         if int(x.get('id', 0)) == int(repo_id):
           yes = True
           break
-      if not yes: return 'Repo not found'
+      if not yes:
+        logging.info("Cannot find project")
+        return 'Repo not found'
 
       log = project.get('logs')
       log += f"{self.lf}: Repo linked successfully"
