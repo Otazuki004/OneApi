@@ -12,6 +12,7 @@ class user(Methods):
       self.db = db
       self.cb = DATABASE['cb']
       self.gen_token = gen_token
+      self.lf = "^•^ [ElevenHost]"
     async def find(self, user_id: int, check=False):
       try:
         if check:
