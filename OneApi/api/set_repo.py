@@ -13,7 +13,7 @@ async def set_repo():
   project_id = int(data.get('project_id'))
   repo_id = int(data.get('repo_id'))
 
-  mano = await self.set_repo(user_id, project_id, repo_id)
+  mano = await user.set_repo(user_id, project_id, repo_id)
   if mano == 'ok':
     return jsonify({'message': mano}), 200
   elif 'Error' in str(mano):
