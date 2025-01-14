@@ -5,7 +5,7 @@ from .methods import *
 import httpx
 from ..others import *
 
-db = DATABASE['user_nelsk']
+db = DATABASE['user_nelskk']
 
 class user(Methods):
     def __init__(self):
