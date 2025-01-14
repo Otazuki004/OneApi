@@ -23,9 +23,8 @@ class GetRepos:
           if not data.get("repositories"): return []
           ily = []
           for x in data.get("repositories"):
-            logging.info(x)
             name, full_name, id = x.get('name'), x.get('full_name'), x.get('id')
-            ily.append({'name': name, 'id': id})
+            ily.append({'name': name, 'id': id, 'full_name': full_name})
           try: pages = list(range(2, int(str(r.headers.get('Link', ''))[126])+1))
           except Exception as w:
             logging.error(f"GetRepos 30: {w}")
@@ -36,8 +35,8 @@ class GetRepos:
             data = k.json()
             if k.status_code == 200 and data.get("repositories"):
               for x in data["repositories"]:
-                name, id = x.get('name'), x.get('id')
-                ily.append({'name': name, 'id': id})
+                name, full_name, id = x.get('name'), x.get('full_name'), x.get('id')
+                ily.append({'name': name, 'id': id, 'full_name': full_name})
           return ily
         else:
           logging.info(f"Failed to get repos of user: {user_id}: {r.text}")
