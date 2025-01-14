@@ -116,7 +116,8 @@ class user(Methods):
             "rom": 'god',
             "repo": 'Not set',
             "apt-allowed": False,
-            "language": 'Mano'
+            "language": 'Mano',
+            "logs": f"{self.lf}: Project successfully created!"
           }},
           upsert=True
         )
