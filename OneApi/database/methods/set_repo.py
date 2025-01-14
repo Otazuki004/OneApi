@@ -19,6 +19,7 @@ class SetRepo:
       for x in hmm:
         if int(x.get('id', 0)) == int(repo_id):
           yes = True
+          name = x.get('name')
           break
       if not yes:
         logging.info("Cannot find project")
@@ -31,7 +32,8 @@ class SetRepo:
         {"_id": f"p{user_id}{project_id}"},
         {"$set": {
           "logs": log,
-          "repo": repo_id
+          "repo": repo_id,
+          "repo_name": name
         }}
       )
       return 'ok'
