@@ -12,7 +12,7 @@ class user(Methods):
       self.db = db
       self.cb = DATABASE['cb']
       self.gen_token = gen_token
-      self.lf = "^•^ [ElevenHost]"
+      self.lf = "\n^•^ [ElevenHost]"
     async def find(self, user_id, project=False, check=False):
       try:
         if project:
