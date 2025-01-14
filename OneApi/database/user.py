@@ -12,7 +12,7 @@ class user(Methods):
       self.db = db
       self.cb = DATABASE['cb']
       self.gen_token = gen_token
-      self.lf = "\n^•^ [ElevenHost]"
+      self.lf = "[ElevenHost]"
     async def find(self, user_id, project=False, check=False):
       try:
         if project:
@@ -114,12 +114,13 @@ class user(Methods):
             "name": name,
             "id": latest_project,
             "plan": plan,
-            "ram": 'god',
-            "rom": 'god',
-            "repo": 'Not set',
+            "ram": 10000,
+            "rom": 100000000,
+            "repo": 0,
+            "repo_name": 'Not set',
             "apt-allowed": False,
-            "language": 'Mano',
-            "logs": f"{self.lf}: Project successfully created!"
+            "language": 'None',
+            "logs": f"[ElevenHost]: Project successfully created!"
           }},
           upsert=True
         )
