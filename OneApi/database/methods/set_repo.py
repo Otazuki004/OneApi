@@ -24,7 +24,7 @@ class SetRepo:
       log += f"{self.lf}: Repo linked successfully"
 
       await db.update_one(
-        {"_id": f"{user_id}{project_id}"},
+        {"_id": f"p{user_id}{project_id}"},
         {"$set": {
           "logs": log,
           "repo": repo_id
