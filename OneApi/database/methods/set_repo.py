@@ -15,7 +15,7 @@ class SetRepo:
 
       yes = False
       for x in hmm:
-        if int(x.get('id')) == project_id:
+        if int(x.get('id', 0)) == int(repo_id):
           yes = True
           break
       if not yes: return 'Repo not found'
