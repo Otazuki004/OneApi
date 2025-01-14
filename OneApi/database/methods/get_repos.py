@@ -23,6 +23,7 @@ class GetRepos:
           if not data.get("repositories"): return []
           ily = []
           for x in data.get("repositories"):
+            logging.info(x)
             name, full_name, id = x.get('name'), x.get('full_name'), x.get('id')
             ily.append({'name': name, 'id': id})
           try: pages = list(range(2, int(str(r.headers.get('Link', ''))[126])+1))
