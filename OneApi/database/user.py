@@ -13,13 +13,15 @@ class user(Methods):
       self.cb = DATABASE['cb']
       self.gen_token = gen_token
       self.lf = "^•^ [ElevenHost]"
-    async def find(self, user_id: int, check=False):
+    async def find(self, user_id, project=False, check=False):
       try:
-        if check:
-          if await db.find_one({"_id": user_id}) and await self.cb.find_one({"_id": user_id}):
+        if project:
+          return await db.find_one({"_id": str(user_id)})
+        elif check:
+          if await db.find_one({"_id": int(user_id)}) and await self.cb.find_one({"_id": user_id}):
             return True
           return False
-        user = await db.find_one({"_id": user_id})
+        user = await db.find_one({"_id": int(user_id)})
         return user
       except Exception as w:
         e = traceback.format_exc()
@@ -107,7 +109,7 @@ class user(Methods):
         if plan_price != 0: await db.update_one({"_id": user_id}, {"$set": {'coins': coins-plan_price}})
         
         await db.update_one(
-          {"_id": f'{user_id}{latest_project}'},
+          {"_id": f'p{user_id}{latest_project}'},
           {"$set": {
             "name": name,
             "id": latest_project,
