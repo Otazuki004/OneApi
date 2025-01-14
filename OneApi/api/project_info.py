@@ -12,7 +12,7 @@ async def project_info():
   user_id = int(data.get('user_id'))
   project_id = int(data.get('project_id'))
 
-  mano = await user.find('p{user_id}{project_id}', project=True)
+  mano = await user.find(f'p{user_id}{project_id}', project=True)
   if mano:
     return jsonify({'message': mano}), 200
   return jsonify({'message': 'Cannot find the project!'}), 400
