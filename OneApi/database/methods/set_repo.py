@@ -11,7 +11,9 @@ class SetRepo:
       elif not project: return 'Project not found'
 
       hmm = await self.get_repos(user_id)
-      if not hmm: return 'Repo not found'
+      if not hmm:
+        logging.info(f"Set repo 16: {hmm}")
+        return 'Repo not found'
 
       yes = False
       for x in hmm:
