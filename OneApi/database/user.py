@@ -29,12 +29,17 @@ class user(Methods):
         if await self.find(user_id): return "exists"
         if not await self.cb.find_one({"_id": user_id}): return "Not connected"
         url = "https://api.github.com/installation/repositories"
-        token = await self.gen_token((await self.cb.find_one({"_id": user_id})).get('installation_id'))
-        if not token: return "Not connected"
+        installation_id = await self.cb.find_one({"_id": user_id})
+        if installation_id and installation_id.get('installation_id'):
+          token = await self.gen_token(installation_id.get('installation_id'))
+          if not token: return "Not connected"
+        else: return "Not connected"
+        
         headers = {
           "Authorization": f"Bearer {token}",
           "Accept": "application/vnd.github+json"
         }
+        
         async with httpx.AsyncClient() as client:
           response = await client.get(url, headers=headers)
           if response.status_code == 200:
@@ -46,18 +51,22 @@ class user(Methods):
           else:
               logging.warn(f"GitHub doesn't give 200 status code: {response.text}")
               return "Not connected"
+        
         await db.update_one({"_id": 1}, {"$addToSet": {"users": user_id}}, upsert=True)
         await db.update_one(
             {"_id": user_id},
             {"$set": {"name": name, "coins": 0, "projects": [], 'latest_project': 0, 'git': owner}},
             upsert=True
         )
+        
         return 'ok'
+      
       except Exception as w:
         e = traceback.format_exc()
         logging.error(e)
         return f"Error: {w}"
-    async def get_projects(self, user_id: int):
+    
+  async def get_projects(self, user_id: int):
       try:
         if not await self.find(user_id): return "not exists"
         user = await self.find(user_id)
@@ -68,6 +77,7 @@ class user(Methods):
         e = traceback.format_exc()
         logging.error(e)
         return f"Error: {oh}"
+    
     async def create_project(self, name: str, user_id: int, plan: str):
       try:
         user = await self.find(user_id)
@@ -123,6 +133,7 @@ class user(Methods):
       except Exception as e:
         logging.error(traceback.format_exc())
         return f'Error: {e}'
+    
     async def delete_project(self, user_id: int, project_id: int):
       try:
         user = await self.find(user_id)
