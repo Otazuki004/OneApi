@@ -147,7 +147,7 @@ class user(Methods):
           return "Project not found"
         if not any(proj.get('project_id') == project_id for proj in user.get('projects', [])):
           return "Project not found"
-        await db.delete_one({"_id": f"{user_id}{project_id}"})
+        await db.delete_one({"_id": f"p{user_id}{project_id}"})
         await db.update_one(
           {"_id": user_id},
           {"$pull": {"projects": {"project_id": project_id}}}
