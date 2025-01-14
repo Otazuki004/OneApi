@@ -66,7 +66,7 @@ class user(Methods):
         logging.error(e)
         return f"Error: {w}"
     
-  async def get_projects(self, user_id: int):
+    async def get_projects(self, user_id: int):
       try:
         if not await self.find(user_id): return "not exists"
         user = await self.find(user_id)
