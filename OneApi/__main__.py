@@ -14,7 +14,7 @@ from .api.user_info import user_info_bp
 from .api.get_repos import get_repos_bp
 from .api.delete_user import delete_user_bp
 from .api.disconnect_git import disconnect_git_bp
-from .set_repo import set_repo_bp
+from .api.set_repo import set_repo_bp
 from .api.project_info import project_info_bp
 
 app.register_blueprint(exists_bp)
