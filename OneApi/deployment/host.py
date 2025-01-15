@@ -4,6 +4,28 @@ import traceback
 import asyncio
 import aiofiles 
 import aiofiles.os
+import yaml
+
+async def check_yaml(data):
+  f = "FileFormatInvalidError:"
+  if not data.get('language'):
+    return f'{f} Project language not found in ElevenHost.yaml'
+  elif not data.get('version'):
+    return f'{f} Project language version not found in ElevenHost.yaml'
+  elif not data.get('build'):
+    return f'{f} Build not found on ElevenHost.yaml'
+  elif not data.get('packages'):
+    return f'{f} Packages not found in ElevenHost.yaml'
+  elif not data.get("start"):
+    return f'{f} start not found in ElevenHost.yaml'
+  else: return True
+
+async def create_docker(data):
+  dockerfile = f"FROM {data.get('language')}:{data.get('version')}\n\n"
+  dockerfile += ''.join([f"RUN {x}\n\n" for x in data.get('build')])
+  dockerfile += ''.join([f"RUN apt-get install {x} -y\n\n" for x in data.get('packages')])
+  dockerfile += f"COPY . /app/\n\nCMD {data.get('start')[0]}\n"
+  return dockerfile
 
 class Host:
   async def host(self, user_id: int, project_id: int):
@@ -49,7 +71,13 @@ class Host:
       
       async with aiofiles.open(f"{repo_folder}/ElevenHost.yaml", mode='r') as mano:
         ctx = mano.read()
-        data = yaml.safe_load(ctx)
+      data = yaml.safe_load(ctx)
+      chk = await check_yaml(data)
+      
+      if not chk is True:
+        await database.add_log(user_id, project_id, chk)
+        return chk
+      
       return True
     except Exception as w:
       logging.error(traceback.format_exc())
