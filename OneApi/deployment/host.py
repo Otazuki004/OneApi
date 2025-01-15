@@ -24,18 +24,27 @@ class Host:
       await run(f"rm -rf {folder}")
       await run(f"mkdir {folder}")
       ok = await run(f"cd {folder} && git clone https://x-access-token:{token}@github.com/{repo.get('full_name')}/")
-      if isinstance(ok, tuple) and 'error' in ok:
+      repo_folder = f"{folder}/{repo.get('name')}"
+      
+      if not await aiofiles.os.path.isfile(repo_folder):
         await database.add_log(user_id, project_id, f"Error on clonning repo: {ok}")
         return 'Failed to host repo'
-      repo_folder = f"{folder}/{repo.get('name')}"
       ls = await run(f"ls {repo_folder}")
       ls2 = await run(f"ls {folder}")
-      print(ok)
+      
       await database.add_log(
         user_id,
         project_id, 
-        f"Successfully clonned repo!\nDebug: Files in repo {ls} 2: {ls2}"
+        f"Successfully clonned repo!\nDebug: Files in repo {ls}"
       )
+      
+      
+      if not await aiofiles.os.path.isfile(f"{repo_folder}/ElevenHost.yaml"):
+        await database.add_log(
+        user_id,
+        project_id, 
+        f"Error:\nCannot find ElevenHost.yaml on your repo"
+        )
       return True
     except Exception as w:
       logging.error(traceback.format_exc())
