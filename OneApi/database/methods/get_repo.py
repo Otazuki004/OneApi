@@ -1,8 +1,8 @@
 import logging 
 import traceback 
 
-class CheckRepo:
-  async def check_repo(self, user_id: int, repo_id: int):
+class GetRepo:
+  async def get_repo(self, user_id: int, repo_id: int):
     try:
       db, cb = self.db, self.cb
       user = await self.find(user_id)
