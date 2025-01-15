@@ -15,7 +15,7 @@ class Host:
       
     installation_id = (await self.cb.find_one({"_id": int(user_id)})).get('installation_id', None)
     if not installation_id: return "not exists"
-    token = await self.gen_token(installation_id)
+    token = await database.gen_token(installation_id)
     
     try:
       folder = f"deployment{user_id}"
