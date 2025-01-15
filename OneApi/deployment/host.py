@@ -5,7 +5,7 @@ import traceback
 class Host:
   async def host(self, user_id: int, project_id: int):
     database = self.database
-    user = await self.find(user_id)
+    user = await database.find(user_id)
     project = await database.find(f"p{user_id}{project_id}", project=True)
     if not user: return 'not exists'
     elif not project: return 'Project not found'
