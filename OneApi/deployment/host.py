@@ -27,10 +27,12 @@ class Host:
         await database.add_log(user_id, project_id, f"Error on clonning repo: {ok}")
         return 'Failed to host repo'
       repo_folder = f"{folder}/{repo.get('name')}"
+      ls = await run(f"ls {repo_folder}")
+      ls2 = await run(f"ls {folder}")
       await database.add_log(
         user_id,
         project_id, 
-        f"Successfully clonned repo!\nDebug: Files in repo {await run(f'ls {repo_folder}')}"
+        f"Successfully clonned repo!\nDebug: Files in repo {ls} 2: {ls2}}"
       )
       return True
     except Exception as w:
