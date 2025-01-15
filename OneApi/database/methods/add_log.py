@@ -10,7 +10,7 @@ class addLog:
       if not user: return 'not exists'
       elif not project: return 'Project not found'
 
-      log = project.get('logs')
+      log = project.get('logs')[-10000:]
       log += f"{self.lf}: {log_text}"
       
       await db.update_one(
