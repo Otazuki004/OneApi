@@ -2,7 +2,7 @@ import traceback
 import logging
 
 class addLog:
-  async def add_log(user_id: int, project_id: int, log_text: str):
+  async def add_log(self, user_id: int, project_id: int, log_text: str):
     try:
       db, cb = self.db, self.cb
       user = await self.find(user_id)
