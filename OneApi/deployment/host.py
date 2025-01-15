@@ -24,13 +24,15 @@ class Host:
       await run(f"mkdir {folder}")
       ok = await run(f"cd {folder} && git clone https://x-access-token:{token}@github.com/{repo.get('full_name')}/")
       if isinstance(ok, tuple) and 'error' in ok:
-        return await database.add_log(user_id, project_id, f"Error on clonning repo: {ok}")
+        await database.add_log(user_id, project_id, f"Error on clonning repo: {ok}")
+        return 'Failed to host repo'
       repo_folder = f"{folder}/{repo.get('name')}"
       await database.add_log(
         user_id,
         project_id, 
         f"Successfully clonned repo!\nDebug: Files in repo {await run(f'ls {repo_folder}')}"
       )
+      return True
     except Exception as w:
       logging.error(traceback.format_exc())
       return f"Error: {w}"
