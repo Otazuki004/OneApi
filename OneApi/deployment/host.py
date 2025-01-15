@@ -28,7 +28,7 @@ class Host:
       ok = await run(f"cd {folder} && git clone https://x-access-token:{token}@github.com/{repo.get('full_name')}/")
       repo_folder = f"{folder}/{repo.get('name')}"
       
-      if not await aiofiles.os.path.isfile(repo_folder):
+      if not await aiofiles.os.path.isdir(repo_folder):
         await database.add_log(user_id, project_id, f"Error on clonning repo: {ok}")
         return 'Failed to host repo'
       ls = await run(f"ls {repo_folder}")
