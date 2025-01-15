@@ -40,13 +40,17 @@ class Host:
         f"Successfully clonned repo!\nDebug: Files in repo {ls}"
       )
       
-      
       if not await aiofiles.os.path.isfile(f"{repo_folder}/ElevenHost.yaml"):
         await database.add_log(
         user_id,
         project_id, 
         f"Error:\nCannot find ElevenHost.yaml on your repo"
         )
+        return "ElevenHost.yaml not found"
+      
+      async with aiofiles.open(f"{repo_folder}/ElevenHost.yaml", mode='r') as mano:
+        ctx = mano.read()
+        data = yaml.safe_load(ctx)
       return True
     except Exception as w:
       logging.error(traceback.format_exc())
