@@ -32,7 +32,7 @@ class Host:
       await database.add_log(
         user_id,
         project_id, 
-        f"Successfully clonned repo!\nDebug: Files in repo {ls} 2: {ls2}}"
+        f"Successfully clonned repo!\nDebug: Files in repo {ls} 2: {ls2}"
       )
       return True
     except Exception as w:
