@@ -14,8 +14,8 @@ class CheckRepo:
       yes = False
       for x in hmm:
         if int(x.get('id', 0)) == int(repo_id):
-          yes = True
+          yes = x
           break
-      if yes: return True
+      if yes: return yes
     except: logging.error(traceback.format_exc())
     return False
