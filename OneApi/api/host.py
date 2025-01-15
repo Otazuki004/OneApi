@@ -1,5 +1,6 @@
 from ..database import *
 from quart import *
+import logging 
 from .. import *
 from ..deployment.deployment import Deployment
 
@@ -15,6 +16,7 @@ async def host():
   project_id = int(data.get('project_id'))
 
   mm = await deploy.host(user_id, project_id)
+  logging.info(f"DEBUG HOST API 18: {mm}")
   if mm is True:
     return jsonify({'message', 'Successfully hosted!'}), 200
-  return jsonify({'message', str(mm)}), 400
+  return jsonify({'message', 'abc'}), 400
