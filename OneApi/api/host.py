@@ -17,4 +17,4 @@ async def host():
   mm = await deploy.host(user_id, project_id)
   if mm is True:
     return jsonify({'message', 'Successfully hosted!'}), 200
-  return jsonify({'message', mm}), 400
+  return jsonify({'message', str(mm)}), 400
