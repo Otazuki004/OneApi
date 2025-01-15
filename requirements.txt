@@ -6,3 +6,5 @@ TgCrypto
 quart-cors
 cryptography
 pyjwt
+aiofiles
+pyyaml
