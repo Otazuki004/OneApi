@@ -18,7 +18,7 @@ class Host:
     token = await self.gen_token(installation_id)
     
     try:
-      folder = f"deployment{user_id}")
+      folder = f"deployment{user_id}"
       await database.add_log(user_id, project_id, "Clonning repo from github...")
       await run(f"rm -rf {folder}")
       await run(f"mkdir {folder}")
