@@ -1,7 +1,7 @@
 from ..database import *
 from quart import *
 from .. import *
-from ..deployment import Deployment
+from ..deployment.deployment import Deployment
 
 user = user()
 deploy = Deployment()
