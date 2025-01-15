@@ -16,6 +16,7 @@ from .api.delete_user import delete_user_bp
 from .api.disconnect_git import disconnect_git_bp
 from .api.set_repo import set_repo_bp
 from .api.project_info import project_info_bp
+from .api.host import host_bp
 
 app.register_blueprint(exists_bp)
 app.register_blueprint(create_user_bp)
@@ -28,6 +29,7 @@ app.register_blueprint(delete_user_bp)
 app.register_blueprint(disconnect_git_bp)
 app.register_blueprint(set_repo_bp)
 app.register_blueprint(project_info_bp)
+app.register_blueprint(host_bp)
 # ---------------------------------
 
 app = cors(app, allow_origin="*")
