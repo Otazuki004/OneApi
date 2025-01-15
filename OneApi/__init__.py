@@ -6,6 +6,7 @@ import os
 from quart import Quart
 from pyrogram import *
 from variables import *
+import asyncio
 
 logging.basicConfig(
   format="[OneApi] %(name)s - %(levelname)s - %(message)s",
