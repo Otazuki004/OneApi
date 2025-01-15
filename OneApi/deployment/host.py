@@ -13,7 +13,7 @@ class Host:
     repo = await database.get_repo(user_id, repo_id)
     if not repo: return "Repo not found"
       
-    installation_id = (await cb.find_one({"_id": int(user_id)})).get('installation_id', None)
+    installation_id = (await self.cb.find_one({"_id": int(user_id)})).get('installation_id', None)
     if not installation_id: return "not exists"
     token = await self.gen_token(installation_id)
     
@@ -25,6 +25,15 @@ class Host:
       ok = await run(f"cd {folder} && git clone https://x-access-token:{token}@github.com/{repo.get('full_name')}/")
       if isinstance(ok, tuple) and 'error' in ok:
         return await database.add_log(user_id, project_id, f"Error on clonning repo: {ok}")
+      repo_folder = f"{folder}/{repo.get('name')}"
+      await database.add_log(
+        user_id,
+        project_id, 
+        f"Successfully clonned repo!\nDebug: Files in repo {await run(f'ls {repo_folder}')}"
+      )
+    except Exception as w:
+      logging.error(traceback.format_exc())
+      return f"Error: {w}"
       
       
     
