@@ -41,7 +41,7 @@ async def run(command):
     if stdout:
       return stdout.decode().strip()
     if stderr:
-      return stderr.decode().strip(), "error"
+      return stderr.decode().strip()
   except Exception as e:
     logging.error(f"Failed to run command '{command}': {e}")
     return False
