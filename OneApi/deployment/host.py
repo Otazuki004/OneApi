@@ -22,7 +22,9 @@ class Host:
       await database.add_log(user_id, project_id, "Clonning repo from github...")
       await run(f"rm -rf {folder}")
       await run(f"mkdir {folder}")
-      await run(f"git clone https://x-access-token:{token}@github.com/{repo.get('full_name')}/")
+      ok = await run(f"cd {folder} && git clone https://x-access-token:{token}@github.com/{repo.get('full_name')}/")
+      if isinstance(ok, tuple) and 'error' in ok:
+        return await database.add_log(user_id, project_id, f"Error on clonning repo: {ok}")
       
       
     
