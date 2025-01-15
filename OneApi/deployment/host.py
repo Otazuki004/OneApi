@@ -31,12 +31,12 @@ class Host:
       if not await aiofiles.os.path.isdir(repo_folder):
         await database.add_log(user_id, project_id, f"Error on clonning repo: {ok}")
         return 'Failed to host repo'
-      ls = await run(f"ls {repo_folder}").split('\n')
+      ls = await run(f"ls {repo_folder}")
       
       await database.add_log(
         user_id,
         project_id, 
-        f"Successfully clonned repo!, Files found in repo: {len(ls)}"
+        f"Successfully clonned repo!, Files found in repo: {len(ls.split('\n')) if '\n' in ls else 0}"
       )
       
       if not await aiofiles.os.path.isfile(f"{repo_folder}/ElevenHost.yaml"):
