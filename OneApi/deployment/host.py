@@ -29,6 +29,7 @@ class Host:
       repo_folder = f"{folder}/{repo.get('name')}"
       ls = await run(f"ls {repo_folder}")
       ls2 = await run(f"ls {folder}")
+      print(ok)
       await database.add_log(
         user_id,
         project_id, 
