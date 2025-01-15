@@ -4,7 +4,7 @@ from .delete_user import DeleteUser
 from .disconnect_git import DisconnectGit
 from .set_repo import SetRepo
 from .add_log import addLog
-from .check_repo import CheckRepo
+from .get_repo import GetRepo
 
 class Methods(
   UserInfo,
@@ -13,6 +13,6 @@ class Methods(
   DisconnectGit,
   SetRepo,
   addLog,
-  CheckRepo,
+  GetRepo,
 ):
   pass
