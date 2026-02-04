@@ -1,10 +1,4 @@
-quart
-motor==3.6.0
-pymongo[srv]
-kurigram
-TgCrypto
-quart-cors
-cryptography
-pyjwt
-aiofiles
-pyyaml
+SQLAlchemy[asyncio]
+asyncpg
+fastapi
+uvicorn[standard]
