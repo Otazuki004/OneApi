@@ -1,7 +1,6 @@
 import logging
 from fastapi import FastAPI, APIRouter
 from .ws.client import Client
-from .loader import load_modules_from_folder  # ✅ FIXED
 
 logging.basicConfig(
     format="[OneApi] %(name)s - %(levelname)s - %(message)s",
