@@ -1,0 +1,21 @@
+[OneApi] OneApi.WebSockets - WARNING - Connection rejected: Missing Hazel_ID
+[OneApi] OneApi.WebSockets - WARNING - Connection rejected: Missing Hazel_ID
+[OneApi] OneApi.WebSockets - INFO - Hazel Client connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - Hazel Client connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - Hazel Client connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - Hazel Client connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - WebSocket connection rejected due to invalid token
+[OneApi] OneApi.WebSockets - INFO - Hazel UB connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - WebSocket connection rejected due to invalid token
+[OneApi] OneApi.WebSockets - INFO - Received token: OfVHKCVcY5ZrYU51to74-e_kgu9e6WfBn3nKKjQFaso
+[OneApi] OneApi.WebSockets - INFO - WebSocket connection rejected due to invalid token
+[OneApi] OneApi.WebSockets - INFO - Received token: OfVHKCVcY5ZrYU51to74-e_kgu9e6WfBn3nKKjQFaso
+[OneApi] OneApi.WebSockets - INFO - WebSocket connection rejected due to invalid token
+[OneApi] OneApi.WebSockets - INFO - Hazel UB connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - Received token: dz9Lh7UbKViydogpo6-bGK8t1zsWnMDTHjWe68m1f4Q
+[OneApi] OneApi.WebSockets - INFO - Hazel Client connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - Received token: dz9Lh7UbKViydogpo6-bGK8t1zsWnMDTHjWe68m1f4Q
+[OneApi] OneApi.WebSockets - INFO - WebSocket connection rejected due to invalid token
+[OneApi] OneApi.WebSockets - INFO - Hazel UB connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - Hazel Client connected: Hazel_ID=123456
+[OneApi] OneApi.WebSockets - INFO - Hazel UB connected: Hazel_ID=123456
