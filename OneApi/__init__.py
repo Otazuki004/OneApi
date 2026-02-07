@@ -1,23 +1,24 @@
 import logging
 from fastapi import FastAPI, APIRouter
 from .ws.client import Client
-from loader import load_modules_from_folder
+from .loader import load_modules_from_folder  # ✅ FIXED
 
 logging.basicConfig(
-  format="[OneApi] %(name)s - %(levelname)s - %(message)s",
-  handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
-  level=logging.INFO,
+    format="[OneApi] %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    level=logging.INFO,
 )
 logger = logging.getLogger("OneApi")
 
 app = FastAPI()
-wsRouter: APIRouter = APIRouter(prefix="/ws", tags=["websockets"])
 
-Client = Client(wsRouter)
+ws_router = APIRouter(prefix="/ws", tags=["websockets"])
 
-app.include_router(wsRouter)
+ws_client = Client(ws_router)  # ✅ FIXED
 
-load_modules_from_folder("OneApi/routes")
+app.include_router(ws_router)
+
+# load_modules_from_folder("OneApi/routes")
 
 @app.get("/")
 async def home():
